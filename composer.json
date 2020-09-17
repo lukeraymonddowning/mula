@@ -1,0 +1,54 @@
+{
+    "name": "lukeraymonddowning/mula",
+    "description": "A Laravel package that makes working with money in a secure manner a cinch!",
+    "keywords": [
+        "lukeraymonddowning",
+        "mula"
+    ],
+    "homepage": "https://github.com/lukeraymonddowning/mula",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Luke Downing",
+            "email": "lukeraymonddowning@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "^6.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lukeraymonddowning\\Mula\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lukeraymonddowning\\Mula\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lukeraymonddowning\\Mula\\MulaServiceProvider"
+            ],
+            "aliases": {
+                "Mula": "Lukeraymonddowning\\Mula\\MulaFacade"
+            }
+        }
+    }
+}
