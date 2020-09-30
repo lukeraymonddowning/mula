@@ -346,6 +346,22 @@ class Product extends Model {
 The column storing your monetary values in your database should be a string type. This prevents floating point errors
 and also allows `Mula` to store the currency along with the value.
 
+If you'd prefer to store your amount and currency in two separate columns, which allows you more freedom when 
+performing database queries, you can! Just let `Mula` know the amount column and currency column respectively in your `$casts` array.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Lukeraymonddowning\Mula\Casts\Mula;
+
+class Product extends Model {
+
+    protected $casts = [
+        'price' => Mula::class.':amount,currency'
+    ];
+
+}
+```
+
 ## Collection methods
 
 `Mula` adds macros to Laravel Collections to make it easy to perform common monetary operations to a Collection of
