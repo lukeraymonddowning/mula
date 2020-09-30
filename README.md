@@ -92,6 +92,8 @@ Mula::parse('£120.99', 'USD'); // $120.99
 Mula::parse('120', 'USD'); // $120.00
 ```
 
+Note that in the third example, the money object is in USD, even though we parsed a value in GBP. That is because we passed a second parameter of `USD`. Passing in a currency will always override the given currency. 
+
 #### International
 
 The `international` parser will parse full monetary string with currency, but will not parse decimal strings.
