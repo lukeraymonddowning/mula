@@ -21,7 +21,7 @@ composer require lukeraymonddowning/mula
 
 The `MulaServiceProvider` will be registered automatically.
 
-## Usage and API
+## Basic usage and API
 
 We provide a `Mula` facade that allows you to easily create, parse and alter monetary values. 
 
@@ -295,6 +295,41 @@ values must add up to 100.
 Mula::create('10000', 'USD')->split([30, 70]); // A Collection. The first item will have a value of $30.00 and the second item will have a value of $70.00.
 
 Mula::create('10000', 'USD')->split(collect([30, 70])); // A Collection. The first item will have a value of $30.00 and the second item will have a value of $70.00.
+```
+
+## Storing money in a database
+
+`Mula` makes it easy to store and retrieve money values from a database by providing a custom cast you can attach to your
+Eloquent models.
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Lukeraymonddowning\Mula\Casts\Mula;
+
+class Product extends Model {
+
+    protected $casts = [
+        'price' => Mula::class
+    ];
+
+}
+```
+
+The column storing your monetary values in your database should be a string type. This prevents floating point errors
+and also allows `Mula` to store the currency along with the value.
+
+## Collection methods
+
+`Mula` adds macros to Laravel Collections to make it easy to perform common monetary operations to a Collection of
+money objects.
+
+### Financial sum
+
+If you need to add together a `Collection` of money objects, you may use the `financialSum` method. It will return a 
+new money object.
+
+```php
+collect(Mula::create('1500', 'USD'), Mula::create('3000', 'USD'))->financialSum(); // A new money object with a value of $45.00.
 ```
 
 ### Testing
