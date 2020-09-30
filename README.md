@@ -11,6 +11,30 @@ and provides all the pieces you need to be up and running with money in a matter
 Mula is also fully immutable, so you won't run in to issues changing values you really wish you hadn't. It also handles
 rounding and allocation, so you don't have to worry about any finances going missing.
 
+## TOC
+
+- [Installation](#installation)
+- [Basic usage and API](#basic-usage-and-api)
+    * [Create](#create)
+    * [Parse](#parse)
+    * [Display](#display)
+    * [Display without currency](#display-without-currency)
+    * [Currency](#currency)
+    * [Value](#value)
+    * [Add](#add)
+    * [Subtract](#subtract)
+    * [Multiply](#multiply-by)
+    * [Divide](#divide-by)
+    * [Modulus](#modulus)
+    * [Has same currency](#has-same-currency-as)
+    * [Equals](#equals)
+    * [Is greater than](#is-greater-than)
+    * [Is less than](#is-less-than)
+    * [Splits and allocation](#split)
+- [Storing money in a database](#storing-money-in-a-database)
+- [Collection methods](#collection-methods)
+    * [Financial sum](#financial-sum)
+
 ## Installation
 
 You can install the package via composer:
