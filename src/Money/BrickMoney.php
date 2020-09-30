@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Lukeraymonddowning\Mula\Money;
-
 
 use Exception;
 use Illuminate\Support\Collection;
@@ -61,9 +59,9 @@ class BrickMoney implements Money
     public function add(...$money): Money
     {
         return $this->alterValue(
-            fn($instance) => Collection
+            fn ($instance) => Collection
                 ::make($money)
-                ->reduce(fn($carry, $money) => $carry->plus($money->value, $this->roundingMode()), $instance->value)
+                ->reduce(fn ($carry, $money) => $carry->plus($money->value, $this->roundingMode()), $instance->value)
         );
     }
 
@@ -97,20 +95,20 @@ class BrickMoney implements Money
     public function subtract(...$money): Money
     {
         return $this->alterValue(
-            fn($instance) => Collection
+            fn ($instance) => Collection
                 ::make($money)
-                ->reduce(fn($carry, $money) => $carry->minus($money->value, $this->roundingMode()), $instance->value)
+                ->reduce(fn ($carry, $money) => $carry->minus($money->value, $this->roundingMode()), $instance->value)
         );
     }
 
     public function multiplyBy($multiplier): Money
     {
-        return $this->alterValue(fn($instance) => $instance->value->multipliedBy($multiplier, $this->roundingMode()));
+        return $this->alterValue(fn ($instance) => $instance->value->multipliedBy($multiplier, $this->roundingMode()));
     }
 
     public function divideBy($divisor): Money
     {
-        return $this->alterValue(fn($instance) => $instance->value->dividedBy($divisor, $this->roundingMode()));
+        return $this->alterValue(fn ($instance) => $instance->value->dividedBy($divisor, $this->roundingMode()));
     }
 
     public function mod(Money $divisor): Money
@@ -137,12 +135,12 @@ class BrickMoney implements Money
 
     public function equals(...$money): bool
     {
-        return $this->check($money, fn($value) => $value->isEqualTo($this->value));
+        return $this->check($money, fn ($value) => $value->isEqualTo($this->value));
     }
 
     protected function check(array $money, callable $check)
     {
-        return empty(Collection::make($money)->first(fn($amount) => !$check($amount->value)));
+        return empty(Collection::make($money)->first(fn ($amount) => ! $check($amount->value)));
     }
 
     public function isGreaterThan(...$money): bool
