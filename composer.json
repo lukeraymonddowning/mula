@@ -17,6 +17,7 @@
     ],
     "require": {
         "php": "^7.4",
+        "brick/money": "^0.5.0",
         "illuminate/support": "^7.0|^8.0",
         "moneyphp/money": "^3.3"
     },
