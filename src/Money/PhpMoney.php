@@ -26,7 +26,7 @@ class PhpMoney implements Money
         return config('mula.options.phpmoney.locale');
     }
 
-    public function create(string $amount, $currency = null): Money
+    public function create($amount, $currency = null): Money
     {
         $currency ??= config('mula.currency');
 
@@ -39,10 +39,10 @@ class PhpMoney implements Money
         return $this;
     }
 
-    public function parse(string $amount, $currency = null): Money
+    public function parse($amount, $currency = null): Money
     {
         try {
-            $this->value = $this->parserResolver->resolve()->parse($amount, $currency);
+            $this->value = $this->parserResolver->resolve()->parse(strval($amount), $currency);
         } catch (Exception $exception) {
             throw new UnreadableMonetaryValue($exception->getMessage());
         }

@@ -65,6 +65,9 @@ Note that when creating, we exclude any decimal point. Currency should be passed
 
 You may also exclude the currency, in which case `Mula` will use the default currency defined in the `mula.php` config file, or your `.env` file using the `MULA_CURRENCY` key.
 
+Whilst we will use strings to pass values to the `create` method in the documentation,
+you are free to pass integer values instead.
+
 ### Parse
 
 More often than not, you'll want to parse existing monetary values rather than create new ones from scratch. You should
@@ -76,6 +79,9 @@ by altering the value of `mula.options.phpmoney.parser.default`.
 
 We recommend using the default `aggregate` parser, but for the sake of clarity, we'll explain the difference between
 each one. 
+
+Whilst we will use strings to pass values to the `parse` method in the documentation,
+you are free to pass integers or decimal values instead.
 
 #### Aggregate
 
