@@ -1,9 +1,8 @@
 # Very short description of the package
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lukeraymonddowning/mula.svg?style=flat-square)](https://packagist.org/packages/lukeraymonddowning/mula)
-[![Build Status](https://img.shields.io/travis/lukeraymonddowning/mula/master.svg?style=flat-square)](https://travis-ci.org/lukeraymonddowning/mula)
+![Mula PhpUnit Tests](https://github.com/lukeraymonddowning/mula/workflows/Mula%20PhpUnit%20Tests/badge.svg?branch=master)
 [![Quality Score](https://img.shields.io/scrutinizer/g/lukeraymonddowning/mula.svg?style=flat-square)](https://scrutinizer-ci.com/g/lukeraymonddowning/mula)
-[![Total Downloads](https://img.shields.io/packagist/dt/lukeraymonddowning/mula.svg?style=flat-square)](https://packagist.org/packages/lukeraymonddowning/mula)
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
 
