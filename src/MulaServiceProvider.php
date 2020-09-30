@@ -23,7 +23,7 @@ class MulaServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/mula.php', 'mula');
 
-        $this->app->bind(Money::class, data_get(config('mula.options'), config('mula.default'))['driver']);
+        $this->app->bind(Money::class, fn() => app(data_get(config('mula.options'), config('mula.default'))['driver']));
         $this->app->singleton('mula', Mula::class);
 
         $this->bindPhpMoney();

@@ -2,10 +2,9 @@
 
 namespace Lukeraymonddowning\Mula\Tests;
 
+use Brick\Math\RoundingMode;
 use Lukeraymonddowning\Mula\Exceptions\UnreadableMonetaryValue;
 use Lukeraymonddowning\Mula\Facades\Mula;
-use Lukeraymonddowning\Mula\Money\BrickMoney;
-use Lukeraymonddowning\Mula\Money\Money;
 use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\AggregateMoneyParserResolver;
 use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\DecimalMoneyParserResolver;
 use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\ParserResolver;
@@ -17,7 +16,7 @@ class BrickMoneyTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->swap(Money::class, app(BrickMoney::class));
+        config()->set('mula.default', 'brick');
     }
 
     /** @test */
@@ -124,6 +123,14 @@ class BrickMoneyTest extends TestCase
 
         $this->assertNotSame($money, $newMoney);
         $this->assertTrue(Mula::create('15000', 'GBP')->equals($newMoney));
+
+        $money = Mula::create('99', 'GBP');
+        $newMoney = $money->withArguments(['roundingMode' => RoundingMode::DOWN])->divideBy(2);
+        $this->assertTrue(Mula::create('49', 'GBP')->equals($newMoney));
+
+        $money = Mula::create('99', 'GBP');
+        $newMoney = $money->withArguments(['roundingMode' => RoundingMode::UP])->divideBy(2);
+        $this->assertTrue(Mula::create('50', 'GBP')->equals($newMoney));
     }
 
     /** @test */

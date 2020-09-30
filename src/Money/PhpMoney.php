@@ -172,4 +172,9 @@ class PhpMoney implements Money
     {
         return $this->display();
     }
+
+    public function withArguments(array $arguments): Money
+    {
+        return $this;
+    }
 }

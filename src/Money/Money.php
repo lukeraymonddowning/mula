@@ -62,4 +62,6 @@ interface Money extends Stringable
     public function split($allocation): Collection;
 
     public function copy(): Money;
+
+    public function withArguments(array $arguments): Money;
 }

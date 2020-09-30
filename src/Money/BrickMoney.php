@@ -11,6 +11,7 @@ use Lukeraymonddowning\Mula\Exceptions\UnreadableMonetaryValue;
 class BrickMoney implements Money
 {
     protected \Brick\Money\Money $value;
+    protected $arguments = [];
 
     public function create($amount, $currency = null): Money
     {
@@ -27,12 +28,19 @@ class BrickMoney implements Money
 
     public function parse($amount, $currency = null): Money
     {
-        // TODO: Implement parse() method.
+        $currency ??= config('mula.currency');
+
+        try {
+            $this->value = \Brick\Money\Money::of($amount, $currency);
+        } catch (Exception $exception) {
+            throw new UnreadableMonetaryValue($exception->getMessage());
+        }
+
+        return $this;
     }
 
     public function display(bool $includeCurrency = true): string
     {
-        // TODO: Implement display() method.
     }
 
     public function displayWithoutCurrency(): string
@@ -42,37 +50,84 @@ class BrickMoney implements Money
 
     public function currency(): string
     {
-        // TODO: Implement currency() method.
+        return $this->value->getCurrency();
     }
 
     public function value(): string
     {
-        // TODO: Implement value() method.
+        return $this->value->getMinorAmount();
     }
 
     public function add(...$money): Money
     {
-        // TODO: Implement add() method.
+        return $this->alterValue(
+            fn($instance) => Collection
+                ::make($money)
+                ->reduce(fn($carry, $money) => $carry->plus($money->value, $this->roundingMode()), $instance->value)
+        );
+    }
+
+    protected function alterValue(callable $closure)
+    {
+        $instance = $this->copy();
+        $instance->value = $closure($instance);
+
+        return $instance;
+    }
+
+    public function copy(): Money
+    {
+        return $this->newInstance($this->value, $this->arguments);
+    }
+
+    protected function newInstance(\Brick\Money\Money $money, $arguments = [])
+    {
+        $instance = app(self::class);
+        $instance->value = $money;
+        $instance->arguments = $arguments;
+
+        return $instance;
+    }
+
+    protected function roundingMode()
+    {
+        return $this->arguments['roundingMode'] ?? config('mula.options.brick.rounding');
     }
 
     public function subtract(...$money): Money
     {
-        // TODO: Implement subtract() method.
+        return $this->alterValue(
+            fn($instance) => Collection
+                ::make($money)
+                ->reduce(fn($carry, $money) => $carry->minus($money->value, $this->roundingMode()), $instance->value)
+        );
     }
 
     public function multiplyBy($multiplier): Money
     {
-        // TODO: Implement multiplyBy() method.
+        return $this->alterValue(fn($instance) => $instance->value->multipliedBy($multiplier, $this->roundingMode()));
     }
 
     public function divideBy($divisor): Money
     {
-        // TODO: Implement divideBy() method.
+        return $this->alterValue(fn($instance) => $instance->value->dividedBy($divisor, $this->roundingMode()));
     }
 
     public function mod(Money $divisor): Money
     {
-        // TODO: Implement mod() method.
+        $amount = $divisor->copy();
+
+        while ($amount->value->isLessThan($this->value)) {
+            $calculatedAmount = $amount->add($divisor);
+
+            if ($calculatedAmount->value->isGreaterThanOrEqualTo($amount->value)) {
+                break;
+            }
+
+            $amount = $calculatedAmount;
+        }
+
+        return $this->newInstance($this->subtract($amount)->value, $this->arguments);
     }
 
     public function hasSameCurrencyAs(...$money): bool
@@ -82,7 +137,12 @@ class BrickMoney implements Money
 
     public function equals(...$money): bool
     {
-        return $this->check($money, fn ($value) => $value->isEqualTo($this->value));
+        return $this->check($money, fn($value) => $value->isEqualTo($this->value));
+    }
+
+    protected function check(array $money, callable $check)
+    {
+        return empty(Collection::make($money)->first(fn($amount) => !$check($amount->value)));
     }
 
     public function isGreaterThan(...$money): bool
@@ -110,18 +170,15 @@ class BrickMoney implements Money
         // TODO: Implement split() method.
     }
 
-    public function copy(): Money
-    {
-        // TODO: Implement copy() method.
-    }
-
     public function __toString()
     {
         // TODO: Implement __toString() method.
     }
 
-    protected function check(array $money, callable $check)
+    public function withArguments(array $arguments): Money
     {
-        return empty(Collection::make($money)->first(fn ($amount) => ! $check($amount->value)));
+        $this->arguments = array_merge($this->arguments, $arguments);
+
+        return $this;
     }
 }

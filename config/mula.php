@@ -8,6 +8,10 @@ use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\InternationalMoneyPars
 return [
     'default' => env('MULA_DRIVER', 'phpmoney'),
     'options' => [
+        'brick' => [
+            'driver' => Lukeraymonddowning\Mula\Money\BrickMoney::class,
+            'rounding' => Brick\Math\RoundingMode::DOWN,
+        ],
         'phpmoney' => [
             'driver' => Lukeraymonddowning\Mula\Money\PhpMoney::class,
             'locale' => 'en_US',
