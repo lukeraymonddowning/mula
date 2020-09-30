@@ -19,7 +19,11 @@ You can install the package via composer:
 composer require lukeraymonddowning/mula
 ```
 
-The `MulaServiceProvider` will be registered automatically.
+You should publish the `mula.php` config file by running:
+
+```bash
+php artisan vendor:publish --provider="Lukeraymonddowning\Mula\MulaServiceProvider"
+```
 
 ## Basic usage and API
 
