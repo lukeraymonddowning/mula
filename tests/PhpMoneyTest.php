@@ -20,11 +20,32 @@ class PhpMoneyTest extends TestCase
     }
 
     /** @test */
+    public function it_can_create_new_money_with_an_integer()
+    {
+        $money = Mula::create(12350, 'GBP');
+        $this->assertTrue(Mula::create('12350', 'GBP')->equals($money));
+    }
+
+    /** @test */
     public function it_throws_an_exception_if_the_amount_is_unreadable()
     {
         $this->expectException(UnreadableMonetaryValue::class);
 
         Mula::create('foobar');
+    }
+
+    /** @test */
+    public function it_can_parse_money_as_an_integer()
+    {
+        $money = Mula::parse(123, 'GBP');
+        $this->assertTrue(Mula::create('12300', 'GBP')->equals($money));
+    }
+
+    /** @test */
+    public function it_can_parse_money_as_a_float()
+    {
+        $money = Mula::parse(123.99, 'GBP');
+        $this->assertTrue(Mula::create('12399', 'GBP')->equals($money));
     }
 
     /** @test */
