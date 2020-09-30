@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver;
-
 
 use Money\MoneyParser;
 

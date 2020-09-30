@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Lukeraymonddowning\Mula\Money;
 
 use Exception;
@@ -73,7 +72,7 @@ class PhpMoney implements Money
 
     public function add(...$money): Money
     {
-        return $this->alterValue(fn($instance) => $instance->value->add(...Collection::make($money)->map->value));
+        return $this->alterValue(fn ($instance) => $instance->value->add(...Collection::make($money)->map->value));
     }
 
     protected function alterValue(callable $closure)
@@ -99,63 +98,63 @@ class PhpMoney implements Money
 
     public function subtract(...$money): Money
     {
-        return $this->alterValue(fn($instance) => $instance->value->subtract(...Collection::make($money)->map->value));
+        return $this->alterValue(fn ($instance) => $instance->value->subtract(...Collection::make($money)->map->value));
     }
 
     public function multiplyBy($multiplier): Money
     {
-        return $this->alterValue(fn($instance) => $instance->value->multiply($multiplier));
+        return $this->alterValue(fn ($instance) => $instance->value->multiply($multiplier));
     }
 
     public function divideBy($divisor): Money
     {
-        return $this->alterValue(fn($instance) => $instance->value->divide($divisor));
+        return $this->alterValue(fn ($instance) => $instance->value->divide($divisor));
     }
 
     public function mod(Money $divisor): Money
     {
-        return $this->alterValue(fn($instance) => $instance->value->mod($divisor->value));
+        return $this->alterValue(fn ($instance) => $instance->value->mod($divisor->value));
     }
 
     public function hasSameCurrencyAs(...$money): bool
     {
-        return $this->check($money, fn($value) => $value->isSameCurrency($this->value));
+        return $this->check($money, fn ($value) => $value->isSameCurrency($this->value));
     }
 
     protected function check(array $money, callable $check)
     {
-        return empty(Collection::make($money)->first(fn($amount) => !$check($amount->value)));
+        return empty(Collection::make($money)->first(fn ($amount) => ! $check($amount->value)));
     }
 
     public function equals(...$money): bool
     {
-        return $this->check($money, fn($value) => $value->equals($this->value));
+        return $this->check($money, fn ($value) => $value->equals($this->value));
     }
 
     public function isGreaterThan(...$money): bool
     {
-        return $this->check($money, fn($value) => $value->lessThan($this->value));
+        return $this->check($money, fn ($value) => $value->lessThan($this->value));
     }
 
     public function isGreaterThanOrEqualTo(...$money): bool
     {
-        return $this->check($money, fn($value) => $value->lessThanOrEqual($this->value));
+        return $this->check($money, fn ($value) => $value->lessThanOrEqual($this->value));
     }
 
     public function isLessThan(...$money): bool
     {
-        return $this->check($money, fn($value) => $value->greaterThan($this->value));
+        return $this->check($money, fn ($value) => $value->greaterThan($this->value));
     }
 
     public function isLessThanOrEqualTo(...$money): bool
     {
-        return $this->check($money, fn($value) => $value->greaterThanOrEqual($this->value));
+        return $this->check($money, fn ($value) => $value->greaterThanOrEqual($this->value));
     }
 
     public function split($allocation): Collection
     {
         return collect($this->getAllocatedAmounts($allocation))
-            ->map(fn($phpMoney) => $this->newInstance($phpMoney));
+            ->map(fn ($phpMoney) => $this->newInstance($phpMoney));
     }
 
     protected function getAllocatedAmounts($allocation)

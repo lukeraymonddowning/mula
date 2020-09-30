@@ -12,7 +12,6 @@ use Orchestra\Testbench\TestCase;
 
 class PhpMoneyTest extends TestCase
 {
-
     /** @test */
     public function it_can_create_new_money()
     {
@@ -275,7 +274,7 @@ class PhpMoneyTest extends TestCase
             ['£1000', '£1,000.00'],
             ['$1000', '$1,000.00'],
             ['£1,500', '£1,500.00'],
-            ['€1,700.99', '€1,700.99']
+            ['€1,700.99', '€1,700.99'],
         ];
     }
 
@@ -311,13 +310,13 @@ class PhpMoneyTest extends TestCase
     public function it_can_return_the_currency()
     {
         $money = Mula::create(10000, 'GBP');
-        $this->assertEquals("GBP", $money->currency());
+        $this->assertEquals('GBP', $money->currency());
 
         $money = Mula::create(10000, 'EUR');
-        $this->assertEquals("EUR", $money->currency());
+        $this->assertEquals('EUR', $money->currency());
 
         $money = Mula::create(10000, 'USD');
-        $this->assertEquals("USD", $money->currency());
+        $this->assertEquals('USD', $money->currency());
     }
 
     /** @test */

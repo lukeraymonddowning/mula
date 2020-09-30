@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Lukeraymonddowning\Mula\Money;
-
 
 use Illuminate\Support\Collection;
 use Lukeraymonddowning\Mula\Exceptions\UnreadableMonetaryValue;
