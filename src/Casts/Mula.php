@@ -3,7 +3,6 @@
 namespace Lukeraymonddowning\Mula\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Support\Str;
 use Lukeraymonddowning\Mula\Facades;
 
 class Mula implements CastsAttributes
@@ -40,7 +39,7 @@ class Mula implements CastsAttributes
 
         return [
             $this->columns[0] => $money->value(),
-            $this->columns[1] => $money->currency()
+            $this->columns[1] => $money->currency(),
         ];
     }
 }

@@ -68,7 +68,7 @@ class MulaCastTest extends TestCase
     public function if_parameters_are_provided_it_maps_currency_and_amount_separately_when_retrieving()
     {
         $cast = new Casts\Mula('amount', 'currency');
-        $castedValue = $cast->get(new ExampleModel(), 'another_price', null, ['currency' => "GBP", 'amount' => 12345]);
+        $castedValue = $cast->get(new ExampleModel(), 'another_price', null, ['currency' => 'GBP', 'amount' => 12345]);
 
         $this->assertTrue(Mula::create('12345', 'GBP')->equals($castedValue));
     }
@@ -83,6 +83,6 @@ class ExampleModel extends Model
 {
     protected $casts = [
         'price' => Casts\Mula::class,
-        'another_price' => Casts\Mula::class.':amount,currency'
+        'another_price' => Casts\Mula::class.':amount,currency',
     ];
 }
