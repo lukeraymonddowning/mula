@@ -54,6 +54,25 @@ class MulaCastTest extends TestCase
         ];
     }
 
+    /** @test */
+    public function if_parameters_are_provided_it_maps_currency_and_amount_separately()
+    {
+        $model = new ExampleModel();
+        $model->another_price = Mula::create('12345', 'GBP');
+        $attributes = $model->getAttributes();
+
+        $this->assertEquals(['currency' => 'GBP', 'amount' => '12345'], $attributes);
+    }
+
+    /** @test */
+    public function if_parameters_are_provided_it_maps_currency_and_amount_separately_when_retrieving()
+    {
+        $cast = new Casts\Mula('amount', 'currency');
+        $castedValue = $cast->get(new ExampleModel(), 'another_price', null, ['currency' => "GBP", 'amount' => 12345]);
+
+        $this->assertTrue(Mula::create('12345', 'GBP')->equals($castedValue));
+    }
+
     protected function getPackageProviders($app)
     {
         return [MulaServiceProvider::class];
@@ -64,5 +83,6 @@ class ExampleModel extends Model
 {
     protected $casts = [
         'price' => Casts\Mula::class,
+        'another_price' => Casts\Mula::class.':amount,currency'
     ];
 }
