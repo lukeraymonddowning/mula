@@ -2,13 +2,14 @@
 
 namespace Lukeraymonddowning\Mula;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
+use Lukeraymonddowning\Mula\Money\Money;
+use Lukeraymonddowning\Mula\Money\PhpMoney\FormatResolver\FormatResolver;
+use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\ParserResolver;
 
 class MulaServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     */
     public function boot()
     {
         /*
@@ -20,9 +21,12 @@ class MulaServiceProvider extends ServiceProvider
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('mula.php'),
-            ], 'config');
+            $this->publishes(
+                [
+                    __DIR__ . '/../config/mula.php' => config_path('mula.php'),
+                ],
+                'config'
+            );
 
             // Publishing the views.
             /*$this->publishes([
@@ -44,17 +48,43 @@ class MulaServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * Register the application services.
-     */
     public function register()
     {
-        // Automatically apply the package configuration
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'mula');
+        $this->mergeConfigFrom(__DIR__ . '/../config/mula.php', 'mula');
 
-        // Register the main class to use with the facade
-        $this->app->singleton('mula', function () {
-            return new Mula;
-        });
+        $this->app->bind(Money::class, data_get(config('mula.options'), config('mula.default'))['driver']);
+        $this->app->singleton('mula', Mula::class);
+
+        $this->bindPhpMoney();
+        $this->addCollectionMacros();
+    }
+
+    protected function bindPhpMoney()
+    {
+        $this->app->bind(
+            FormatResolver::class,
+            data_get(
+                config('mula.options.phpmoney.formatter.options'),
+                config('mula.options.phpmoney.formatter.default')
+            )['driver']
+        );
+
+        $this->app->bind(
+            ParserResolver::class,
+            data_get(
+                config('mula.options.phpmoney.parser.options'),
+                config('mula.options.phpmoney.parser.default')
+            )['driver']
+        );
+    }
+
+    public function addCollectionMacros()
+    {
+        Collection::macro(
+            'financialSum',
+            fn() => $this
+                ->filter(fn($item) => $item instanceof Money)
+                ->reduce(fn($carry, $money) => $carry ? $carry->add($money) : $money)
+        );
     }
 }

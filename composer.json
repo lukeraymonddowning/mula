@@ -16,12 +16,13 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "illuminate/support": "^6.0"
+        "php": "^7.4",
+        "illuminate/support": "^7.0",
+        "moneyphp/money": "^3.3"
     },
     "require-dev": {
-        "orchestra/testbench": "^4.0",
-        "phpunit/phpunit": "^8.0"
+        "orchestra/testbench": "^5.0",
+        "phpunit/phpunit": "^8.5"
     },
     "autoload": {
         "psr-4": {
@@ -47,7 +48,7 @@
                 "Lukeraymonddowning\\Mula\\MulaServiceProvider"
             ],
             "aliases": {
-                "Mula": "Lukeraymonddowning\\Mula\\MulaFacade"
+                "Mula": "Mula"
             }
         }
     }

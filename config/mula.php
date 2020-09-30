@@ -1,0 +1,40 @@
+<?php
+
+use Lukeraymonddowning\Mula\Money\PhpMoney\FormatResolver\InternationalMoneyFormatResolver;
+use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\InternationalMoneyParserResolver;
+use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\AggregateMoneyParserResolver;
+use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\DecimalMoneyParserResolver;
+
+return [
+    'default' => env("MULA_DRIVER", "phpmoney"),
+    'options' => [
+        'phpmoney' => [
+            'driver' => Lukeraymonddowning\Mula\Money\PhpMoney::class,
+            'locale' => 'en_US',
+            'formatter' => [
+                'default' => 'international',
+                'options' => [
+                    'international' => [
+                        'driver' => InternationalMoneyFormatResolver::class
+                    ]
+                ]
+            ],
+            'parser' => [
+                'default' => 'aggregate',
+                'options' => [
+                    'aggregate' => [
+                        'driver' => AggregateMoneyParserResolver::class
+                    ],
+                    'international' => [
+                        'driver' => InternationalMoneyParserResolver::class
+                    ],
+                    'decimal' => [
+                        'driver' => DecimalMoneyParserResolver::class
+                    ]
+                ]
+            ]
+        ]
+    ],
+
+    'currency' => env("MULA_CURRENCY", "USD")
+];
