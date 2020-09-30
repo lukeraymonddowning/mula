@@ -58,14 +58,11 @@ class MulaCastTest extends TestCase
     {
         return [MulaServiceProvider::class];
     }
-
 }
 
 class ExampleModel extends Model
 {
-
     protected $casts = [
-        'price' => Casts\Mula::class
+        'price' => Casts\Mula::class,
     ];
-
 }

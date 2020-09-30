@@ -1,12 +1,12 @@
 <?php
 
 use Lukeraymonddowning\Mula\Money\PhpMoney\FormatResolver\InternationalMoneyFormatResolver;
-use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\InternationalMoneyParserResolver;
 use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\AggregateMoneyParserResolver;
 use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\DecimalMoneyParserResolver;
+use Lukeraymonddowning\Mula\Money\PhpMoney\ParserResolver\InternationalMoneyParserResolver;
 
 return [
-    'default' => env("MULA_DRIVER", "phpmoney"),
+    'default' => env('MULA_DRIVER', 'phpmoney'),
     'options' => [
         'phpmoney' => [
             'driver' => Lukeraymonddowning\Mula\Money\PhpMoney::class,
@@ -15,26 +15,26 @@ return [
                 'default' => 'international',
                 'options' => [
                     'international' => [
-                        'driver' => InternationalMoneyFormatResolver::class
-                    ]
-                ]
+                        'driver' => InternationalMoneyFormatResolver::class,
+                    ],
+                ],
             ],
             'parser' => [
                 'default' => 'aggregate',
                 'options' => [
                     'aggregate' => [
-                        'driver' => AggregateMoneyParserResolver::class
+                        'driver' => AggregateMoneyParserResolver::class,
                     ],
                     'international' => [
-                        'driver' => InternationalMoneyParserResolver::class
+                        'driver' => InternationalMoneyParserResolver::class,
                     ],
                     'decimal' => [
-                        'driver' => DecimalMoneyParserResolver::class
-                    ]
-                ]
-            ]
-        ]
+                        'driver' => DecimalMoneyParserResolver::class,
+                    ],
+                ],
+            ],
+        ],
     ],
 
-    'currency' => env("MULA_CURRENCY", "USD")
+    'currency' => env('MULA_CURRENCY', 'USD'),
 ];

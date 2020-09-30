@@ -12,16 +12,16 @@ class MulaServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        if (!$this->app->runningInConsole()) {
+        if (! $this->app->runningInConsole()) {
             return;
         }
 
-        $this->publishes([__DIR__ . '/../config/mula.php' => config_path('mula.php')], 'config');
+        $this->publishes([__DIR__.'/../config/mula.php' => config_path('mula.php')], 'config');
     }
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/mula.php', 'mula');
+        $this->mergeConfigFrom(__DIR__.'/../config/mula.php', 'mula');
 
         $this->app->bind(Money::class, data_get(config('mula.options'), config('mula.default'))['driver']);
         $this->app->singleton('mula', Mula::class);
@@ -53,9 +53,9 @@ class MulaServiceProvider extends ServiceProvider
     {
         Collection::macro(
             'financialSum',
-            fn() => $this
-                ->filter(fn($item) => $item instanceof Money)
-                ->reduce(fn($carry, $money) => $carry ? $carry->add($money) : $money)
+            fn () => $this
+                ->filter(fn ($item) => $item instanceof Money)
+                ->reduce(fn ($carry, $money) => $carry ? $carry->add($money) : $money)
         );
     }
 }

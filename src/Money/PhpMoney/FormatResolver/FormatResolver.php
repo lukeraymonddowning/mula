@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Lukeraymonddowning\Mula\Money\PhpMoney\FormatResolver;
-
 
 use Money\MoneyFormatter;
 
