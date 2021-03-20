@@ -1,19 +1,49 @@
-name: Mula PhpUnit Tests
+name: Unit Tests
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
 
 jobs:
-  laravel-tests:
+    run:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: true
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+                php: ['7.4', '8.0']
 
-    runs-on: ubuntu-latest
+        name: PHP ${{ matrix.php }} Test on ${{ matrix.os }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: vendor/bin/phpunit
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: mbstring, intl, fileinfo, pdo_sqlite
+                  ini-values: post_max_size=256M, max_execution_time=180
+                  coverage: xdebug
+                  tools: php-cs-fixer, phpunit
+
+            - name: Validate composer.json and composer.lock
+              run: composer validate
+
+            - name: Cache Composer packages
+              id: composer-cache
+              uses: actions/cache@v2
+              with:
+                  path: vendor
+                  key: ${{ matrix.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+                  restore-keys: |
+                      ${{ matrix.os }}-php-${{ matrix.php }}
+
+            - name: Install dependencies
+              if: steps.composer-cache.outputs.cache-hit != 'true'
+              run: composer install --prefer-dist --no-progress --no-suggest
+
+            - name: Run tests
+              run: composer test
