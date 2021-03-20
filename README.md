@@ -176,7 +176,7 @@ Mula::create('1500', 'USD')->add(Mula::create('1500', 'USD'), Mula::create('3000
 
 ### Subtract
 
-The `add` method subtracts the provided money objects from the current money object and returns a new money object.
+The `subtract` method subtracts the provided money objects from the current money object and returns a new money object.
 You may pass any number of money objects as varadic parameters.
 
 ```php
